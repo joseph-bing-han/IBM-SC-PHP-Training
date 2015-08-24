@@ -7,6 +7,7 @@ echo "启动字典成功.....\n";
 while ( true ) {
 	echo "请输入单词：";
 	fscanf ( STDIN, "%s", $word );
+	$word=trim($word);
 	if ("q!" == $word)
 		break;
 	else {
