@@ -8,8 +8,8 @@ class dict{
 	
 	var $idxArray = array();
 	var $dictArray = array();
-	var $dictName = array('oald_cn', 'powerword2011_1_901','gaojihanyudacidian_fix');
-					
+	var $dictName = array('powerword2011_1_901','gaojihanyudacidian_fix','oald_cn');
+
 	var $debug_flag = false;
 	
 	/**
@@ -78,7 +78,8 @@ class dict{
 		$fpDict = fopen ($dictFilePath, "r" );
 		
 		$dictName = $this->getDictInfo($fileName);
-		$this->dictArray[$dictName] = $fpDict;
+		
+		$this->dictArray[$dictName] = array('dictname'=>$fileName,'dict'=>$fpDict, 'index'=>$this->idxArray);
 		if(feof($fpDict)){
 			fclose($fpDict);
 		}
@@ -118,7 +119,6 @@ class dict{
 		
 		foreach ($this->dictName as $k => $v){
 			$this->parseIdxfile($v);
-			
 			if ($this->parseDict($v)){
 				echo "\n";
 				echo 'loading: '.(number_format($i/$count,1)*100).'%';
@@ -131,25 +131,27 @@ class dict{
 	 * @param string $needle
 	 */
 	public function translate($needle=''){
-		
-		if(isset($this->idxArray[$needle])){
+		$i = 0;
+		foreach ($this->dictArray as $k => $v){
 			
-			foreach($this->dictArray as $key => $val){
-				if($this->debug_flag){
-					var_dump($this->idxArray[$needle]);
-				}
-				fseek($val, $this->idxArray[$needle]['offset']);
-				$content=fread($val, $this->idxArray[$needle]['length']);
+			if(isset($v['index'][$needle])){
+				
+				fseek($v['dict'], $v['index'][$needle]['offset']);
+				$content=fread($v['dict'], $v['index'][$needle]['length']);
 				if(!empty($content))
 				{
 					echo "\n================================== ";
-					echo $key;
+					echo $k;
 					echo ' ==================================';
 					echo "\n".$content;
 				}
+				
+			}
+			else{
+				$i++;
 			}
 		}
-		else{
+		if($i==3){
 			echo 'Sorry, the word does not exit!';
 		}
 	}
