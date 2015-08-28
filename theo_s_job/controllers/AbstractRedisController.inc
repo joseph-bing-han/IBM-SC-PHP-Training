@@ -21,7 +21,6 @@ abstract class AbstractRedisController extends AbstractController {
 	
 	protected function setup_client(){
 		$single_server = Config::$db_redis;
-		// TODO use config file
 		$this->redis_client = new Predis\Client ( $single_server + array (
 				'read_write_timeout' => $this->get_timeout ()
 		) );

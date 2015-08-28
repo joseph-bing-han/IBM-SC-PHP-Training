@@ -12,7 +12,7 @@ class MessagerController extends AbstractController{
 	
 	public function __construct(){
 		parent::__construct();
-		 $this->secuser = SecUser::_get_instance(null);
+		 $this->secuser = SecUser::_get_instance();
 	}
 	
 	protected function _set_template() {

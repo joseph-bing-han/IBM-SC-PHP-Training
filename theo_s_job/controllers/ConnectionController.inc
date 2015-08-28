@@ -7,7 +7,7 @@ class ConnectionController extends AbstractRedisController {
 	const SLEEPTIME = 100; //micro seconds, 0.1 second
 	public function run() {
 		$time_start = time ();
-		$c_id = SecUser::_get_instance ( null )->_get_user ()->_get_id ();
+		$c_id = SecUser::_get_instance (  )->_get_user ()->_get_id ();
 		$my_pool = "user{$c_id}:messages";
 		$message_response = array ();
 		// run a thread on server side for TIME_OUT seconds.

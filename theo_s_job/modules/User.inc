@@ -8,52 +8,116 @@ class User implements UserInterface {
 	protected $_email;
 	protected $_passhash;
 	protected $_lmod;
-	const salt = 'life is like a box of chocolates';
+	const salt = 'life is like a box of chocolates'; // To mix data for MD5
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::_get_email()
+	 */
 	public function _get_email() {
 		return $this->_email;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::_get_id()
+	 */
 	public function _get_id() {
 		return $this->_id;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::_get_name()
+	 */
 	public function _get_name() {
 		return $this->_name;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::_set_email()
+	 */
 	public function _set_email($e) {
 		$this->_email = $e;
 		return $this;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::_set_id()
+	 */
 	public function _set_id($id) {
 		$this->_id = $id;
 		return $this;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::_set_name()
+	 */
 	public function _set_name($name) {
 		$this->_name = $name;
 		return $this;
 	}
+	/**
+	 *
+	 * @param unknown $hash        	
+	 * @return User
+	 */
 	protected function _set_passhash($hash) {
 		$this->_passhash = $hash;
 		return $this;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::_get_passhash()
+	 */
 	public function _get_passhash() {
 		return $this->_passhash;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::set_password()
+	 */
 	public function set_password($pass) {
 		$this->_set_passhash ( $this->hash_gen ( $pass ) );
 		return $this;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::hash_gen()
+	 */
 	public function hash_gen($pass) {
 		return md5 ( $pass . self::salt );
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::_set_lmod()
+	 */
 	public function _set_lmod($time) {
 		$this->_lmod = $time;
 		return $this;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::_get_lmod()
+	 */
 	public function _get_lmod() {
 		return $this->_lmod;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::add_user()
+	 */
 	public function add_user() {
 		$db = MysqliDb::getInstance ();
-		var_dump($this);
 		try {
 			
 			if ($this->_get_name () && $this->_get_email () && $this->_get_passhash ()) {
@@ -74,6 +138,11 @@ class User implements UserInterface {
 		
 		return $this;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::update_user()
+	 */
 	public function update_user() {
 		$db = MysqliDb::getInstance ();
 		
@@ -90,6 +159,11 @@ class User implements UserInterface {
 		
 		return $this;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * 
+	 * @see UserInterface::init_by_email()
+	 */
 	public function init_by_email($email) {
 		$db = MysqliDb::getInstance ();
 		$query = 'select * from cr_user where cr_useremail ="' . $email . '"';
@@ -102,7 +176,7 @@ class User implements UserInterface {
 			$this->_set_name ( $v ['cr_username'] );
 			$this->_set_passhash ( $v ['cr_userpass'] );
 			$this->_set_lmod ( $v ['cr_userlomd'] );
-			$this->_set_id($v['idcr_user']);
+			$this->_set_id ( $v ['idcr_user'] );
 		}
 		
 		return $this;

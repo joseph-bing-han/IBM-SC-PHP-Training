@@ -16,6 +16,11 @@ class ControllerRouter {
 				SendMessageController::ROUTER_ID => 'SendMessageController'
 		);
 	}
+	/**
+	 * 
+	 * @param int $router_id
+	 * @throws ControllerException
+	 */
 	public function dispatch($router_id) {
 		if (! is_numeric ( $router_id )) {
 			throw new ControllerException ( 'wrong router id is applied.' );

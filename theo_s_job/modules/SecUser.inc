@@ -19,7 +19,13 @@ class SecUser implements SecUserInterface {
 		}
 		return false;
 	}
-	public static function _get_instance($email) {
+	/**
+	 * 
+	 * @param string $email
+	 * @throws SecUserException
+	 * @return SecUser
+	 */
+	public static function _get_instance($email = null) {
 		
 		if (is_null ( $email )) {
 			@session_start ();
@@ -35,6 +41,10 @@ class SecUser implements SecUserInterface {
 		}
 		return self::$ins;
 	}
+	/**
+	 * (non-PHPdoc)
+	 * @see SecUserInterface::_auth()
+	 */
 	public function _auth($password) {
 		if ($this->user->hash_gen ( $password ) == $this->user->_get_passhash ()) {
 			return true;
@@ -42,6 +52,10 @@ class SecUser implements SecUserInterface {
 			return false;
 		}
 	}
+	/**
+	 * 
+	 * @param string $email
+	 */
 	private function __construct($email) {
 		$this->user = new User ();
 		$this->user->init_by_email ( $email );
@@ -49,6 +63,10 @@ class SecUser implements SecUserInterface {
 	private function __clone() {
 		// never use clone to create instance
 	}
+	/**
+	 * (non-PHPdoc)
+	 * @see SecUserInterface::has_ins()
+	 */
 	public function has_ins() {
 		if (isset ( self::$ins ) && self::$ins instanceof SecUser) {
 			return true;
