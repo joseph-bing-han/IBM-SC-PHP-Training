@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title><{$CTITLE}></title>
+	<link rel="stylesheet" href="/Chat/css/chat.css">
+</head>
+<body>
+
+	<div id="c_login">
+		<h1><{$CSUBTITLE}></h1>
+		<form action="./router.php" method="post">
+			<input type="text" placeholder="<{$CPLACEUSERNAME}>" name="username" autofoucus>
+			<input type="password" placeholder="<{$CPLACEPASSWORD}>" name="password">
+
+			<input type="submit" name="submit" value="<{$CVALSUBMIT}>" >
+			<input type="submit" name="register" value="<{$CVALREG}>">
+		</form>
+	</div>
+
+</body>
+</html>
