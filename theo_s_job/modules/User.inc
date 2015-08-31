@@ -151,7 +151,8 @@ class User implements UserInterface {
 			$db->update ( 'cr_user', array (
 					'cr_username' => $this->_get_name (),
 					'cr_useremail' => $this->_get_email (),
-					'cr_userlomd' => $db->now () 
+					'cr_userlomd' => $db->now () ,
+					'cr_userpass' => $this->_get_passhash()
 			) );
 		} catch ( Exception $e ) {
 			throw new UserException ( $e->getMessage () );
@@ -170,6 +171,7 @@ class User implements UserInterface {
 		$r = $db->rawQuery ( $query );
 		if (count ( $r ) == 0) {
 			throw new UserException ( 'Email is not existing registered' );
+			return $this;
 		}
 		foreach ( $r as $v ) {
 			$this->_set_email ( $v ['cr_useremail'] );
@@ -177,6 +179,45 @@ class User implements UserInterface {
 			$this->_set_passhash ( $v ['cr_userpass'] );
 			$this->_set_lmod ( $v ['cr_userlomd'] );
 			$this->_set_id ( $v ['idcr_user'] );
+		}
+		
+		return $this;
+	}
+	
+	public function init_by_id($id){
+		
+		if(!is_numeric($id)){
+			throw new UserException ( 'ID is not a number assigned' );
+			return $this;
+		}
+		
+		$db = MysqliDb::getInstance ();
+		$query = 'select * from cr_user where idcr_user ="' . $id . '"';
+		$r = $db->rawQuery ( $query );
+		if (count ( $r ) == 0) {
+			throw new UserException ( 'ID is not existing in database' );
+			return $this;
+		}
+		foreach ( $r as $v ) {
+			$this->_set_email ( $v ['cr_useremail'] );
+			$this->_set_name ( $v ['cr_username'] );
+			$this->_set_passhash ( $v ['cr_userpass'] );
+			$this->_set_lmod ( $v ['cr_userlomd'] );
+			$this->_set_id ( $v ['idcr_user'] );
+		}
+		
+		return $this;
+	}
+	
+	public function delete(){
+		if(!is_numeric($this->_get_id())){
+			throw new UserException ( 'ID is not a number assigned' );
+			return $this;
+		}
+		$db = MysqliDb::getInstance ();
+		$db->where('idcr_user', $this->_get_id());
+		if(!$db->delete('cr_user')){
+			throw new UserException('Delte failed');
 		}
 		
 		return $this;

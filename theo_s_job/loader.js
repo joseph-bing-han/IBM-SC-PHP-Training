@@ -3,8 +3,9 @@
  */
 
 var chat = {
-	enter_key : "13",	
-		
+	enter_key : "13",
+	on_line_message : '[Get online]',
+
 	comunicationloop : function() {
 		$.ajax({
 			type : 'POST',
@@ -22,53 +23,58 @@ var chat = {
 	messagedecode : function(message) {
 		console.log('Message:');
 		console.log(message);
-		try{
+		try {
 			var obj = jQuery.parseJSON(message);
-		}catch (e){
-			chat.comunicationloop();
+		} catch (e) {
 			return;
 		}
-		
+
 		if (obj[0] != 'TIMEOUT') {
 			for (var i = 0; i < obj.length; i++) {
-				try{
+				try {
 					var o = jQuery.parseJSON(obj[i]);
 					$('#message_loader').append(
 							'<div>' + o.from + ' [' + o.time + ']: ' + o.body
 									+ '</div>');
 					console.log('Json:');
 					console.log(o);
-				}catch(e){
+				} catch (e) {
+					console.log(e.message);
 					return;
 				}
-				
+
 			}
 		}
-
 	},
 
-	sendmessage : function() {
-		$
-				.ajax({
-					type : 'POST',
-					url : 'http://chat.localhost.lc/IBM-SC-PHP-Training/theo_s_job/index.php',
-					data : {
-						router_id : '4',
-						email : $('#cu_email').val(),
-						load : $('#to_send').val()
-					},
-				});
+	sendmessage : function(message) {
+
+		if (message == null) {
+			message = $('#to_send').val();
+		}
+
+		$.ajax({
+			type : 'POST',
+			url : './index.php',
+			data : {
+				router_id : '4',
+				load : message
+			},
+		});
 		$('#to_send').val('');
 		$('#to_send').focus();
 	}
 };
 
-$('doucment').ready(chat.comunicationloop);
+$('doucment').ready(function() {
+	chat.comunicationloop();
+	chat.sendmessage('Get Online');
+});
 
 $('#send_m').click(chat.sendmessage);
 
-$('#to_send').bind('keypress', function(event){
-	if(event.keyCode == chat.enter_key){
+$('#to_send').bind('keypress', function(event) {
+	if (event.keyCode == chat.enter_key) {
 		chat.sendmessage();
 	}
 });

@@ -2,7 +2,9 @@
 include_once $_SERVER ['DOCUMENT_ROOT'] . '/IBM-SC-PHP-Training/theo_s_job/modules/SecUserInterface.inc';
 include_once $_SERVER ['DOCUMENT_ROOT'] . '/IBM-SC-PHP-Training/theo_s_job/modules/SecUserException.inc';
 include_once $_SERVER ['DOCUMENT_ROOT'] . '/IBM-SC-PHP-Training/theo_s_job/modules/User.inc';
+include_once $_SERVER ['DOCUMENT_ROOT'] . '/IBM-SC-PHP-Training/theo_s_job/libs/db/MysqliDb.php';
 class SecUser implements SecUserInterface {
+	const ACL_ADMIN = 'ADMIN';
 	private static $ins;
 	private $user;
 	
@@ -12,6 +14,14 @@ class SecUser implements SecUserInterface {
 	 * @return boolean
 	 */
 	public function _hasaccessto($str) {
+		$db = MysqliDb::getInstance ();
+		if ($this->user instanceof User) {
+			$r = $db->rawQuery ( 'select * from cr_acl ac left join cr_usertoacl uc on ac.idcr_acl = uc.cr_aclid where uc.cr_userid=' . $this->user->_get_id () . ' and ac.cr_aclbadge = "' . $str . '";' );
+			if(count($r) > 0){
+				return true;
+			}
+		}
+		return false;
 	}
 	protected static function is_logined() {
 		if (isset ( $_SESSION ['email'] )) {
@@ -20,13 +30,12 @@ class SecUser implements SecUserInterface {
 		return false;
 	}
 	/**
-	 * 
-	 * @param string $email
+	 *
+	 * @param string $email        	
 	 * @throws SecUserException
 	 * @return SecUser
 	 */
 	public static function _get_instance($email = null) {
-		
 		if (is_null ( $email )) {
 			@session_start ();
 			if (self::is_logined ()) {
@@ -34,6 +43,7 @@ class SecUser implements SecUserInterface {
 			} else {
 				throw new SecUserException ( 'Please login', SecUserException::ERROR_NOT_LOGIN );
 			}
+			@session_write_close ();
 		}
 		
 		if (! isset ( self::$ins ) || self::$ins->_get_user ()->_get_email () != $email) {
@@ -43,6 +53,7 @@ class SecUser implements SecUserInterface {
 	}
 	/**
 	 * (non-PHPdoc)
+	 *
 	 * @see SecUserInterface::_auth()
 	 */
 	public function _auth($password) {
@@ -53,8 +64,8 @@ class SecUser implements SecUserInterface {
 		}
 	}
 	/**
-	 * 
-	 * @param string $email
+	 *
+	 * @param string $email        	
 	 */
 	private function __construct($email) {
 		$this->user = new User ();
@@ -65,6 +76,7 @@ class SecUser implements SecUserInterface {
 	}
 	/**
 	 * (non-PHPdoc)
+	 *
 	 * @see SecUserInterface::has_ins()
 	 */
 	public function has_ins() {

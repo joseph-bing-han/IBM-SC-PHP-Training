@@ -7,18 +7,16 @@ class SendMessageController extends AbstractRedisController {
 	const ROUTER_ID = 4;
 	const TIME_OUT = 10;
 	public function run() {
-		if (! isset ( $this->requests ['load'] ) || ! isset($this->requests ['email'])) {
+		if (! isset ( $this->requests ['load'] )) {
 			return;
 		}
 		
 		$message = new Message ();
 		$message->load_by_array ( array (
 				$this->requests ['load'],
-				SecUser::_get_instance ( $this->requests ['email'] )->_get_user ()->_get_name (),
+				SecUser::_get_instance ( )->_get_user ()->_get_name (),
 				date ( "F j, Y, g:i a" ) 
 		) );
-		
-		var_dump ( json_encode ( $message->jsonSerialize () ) );
 		
 		$sbuscribers = new Subscribers ();
 		$l = $sbuscribers->get_subscriber_id_list ();

@@ -71,4 +71,14 @@ interface UserInterface{
 	 * @return string
 	 */
 	public function hash_gen($pass);
+	/**
+	 * 
+	 * @param int $id
+	 */
+	public function init_by_id($id);
+	/**
+	 * 
+	 * @param int $id
+	 */
+	public function delete();
 }
