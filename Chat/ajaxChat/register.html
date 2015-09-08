@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html >	
+<head>
+<title>Register</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<meta name="keywords" content="Flat Dark Web Login Form Responsive Templates, Iphone Widget Template, Smartphone login forms,Login form, Widget Template, Responsive Templates, a Ipad 404 Templates, Flat Responsive Templates" />
+<link href="css/style.css" rel='stylesheet' type='text/css' />
+<!--webfonts-->
+<link href='http://fonts.useso.com/css?family=PT+Sans:400,700,400italic,700italic|Oswald:400,300,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.useso.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
+<!--//webfonts-->
+<script src="http://ajax.useso.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+</head>
+<body>
+<script>
+</script>
+ <!--SIGN UP-->
+ <h1>ajaxChat Register  Form</h1>
+<div class="login-form">
+	<div class="close"> </div>
+		<div class="head-info">
+			<label class="lbl-1"> </label>
+			<label class="lbl-2"> </label>
+			<label class="lbl-3"> </label>
+		</div>
+			<div class="clear"> </div>
+	<div class="avtar">
+		<img src="images/avtar.png" />
+	</div>
+	<form action="Register.php" method="post">
+	
+			<input type="text" name="username" class="text" value="" >
+			
+			<div class="key">
+				<input type="password" id="password1" name="password1" value="">
+			</div>
+			<div class="key">
+				<input type="password" id="password2" name="password2" value="">
+			</div>
+			
+			<div class="signin">
+		    <input type="submit" value="Register" onclick="return isSame()">
+			</div>
+	</form>
+
+</div>
+ <div class="copy-rights"></div>
+<script type="text/javascript">
+function isSame() {
+	var pwd1 = $("#password1").val();
+	var pwd2 = $("#password2").val();
+	if(pwd1==pwd2 && pwd1!=null && pwd1!="" && pwd2!=null && pwd2!=""){
+		return true;
+	}else {
+		alert("两次密码不一致或为空！");
+		return false;
+	}
+}
+
+</script>
+</body>
+</html>
