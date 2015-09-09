@@ -1,0 +1,21 @@
+{include file="header.html" title=foo}
+<h1>Admin Page: User List</h1>
+<table border='1' width = '100%'>
+<tr>
+	<td><b>Action</b></td>
+	<td><b>Name</b></td>
+	<td><b>Email</b></td>
+	<td><b>Last Modify Date</b></td>
+</tr>
+{foreach from=$user_list key=k item=value }
+<tr>
+	<td><a href='index.php?router_id=7&idcr_user={$value["idcr_user"]}'>Delete</a> <a href='index.php?router_id=6&idcr_user={$value["idcr_user"]}'>Edit</a></td>
+	<td>{$value['cr_username']}</td>
+	<td>{$value['cr_useremail']}</td>
+	<td>{$value['cr_userlomd']}</td>
+</tr> 
+{/foreach} 
+</table>
+<br />
+<a href='index.php?router_id=1'>Chat Room</a>
+{include file="footer.html" title=foo}

@@ -1,0 +1,27 @@
+{include file="header.html" title=foo}
+User Name: {$username}
+<link rel="stylesheet" href="/IBM-SC-PHP-Training/theo_s_job/libs/jquery-ui-1.11.4/jquery-ui.css" />
+<link rel="stylesheet" href="/IBM-SC-PHP-Training/theo_s_job/libs/jquery-ui-1.11.4/jquery-ui.structure.css" />
+<link rel="stylesheet" href="/IBM-SC-PHP-Training/theo_s_job/libs/jquery-ui-1.11.4/jquery-ui.theme.css" />
+<style>
+<!--
+.extra2 {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 5;
+    vertical-align: middle;
+    padding
+}
+-->
+</style>
+<div id="message_loader">
+</div>
+<div class='extra2'>
+<input id='to_send' name='tosend'  style="width:70%;"/><button id="send_m">Send</button>
+<input id='cu_email' type="hidden" value='{$email}' />
+</div>
+<script type="text/javascript" src="/IBM-SC-PHP-Training/theo_s_job/libs/jquery-ui-1.11.4/external/jquery/jquery.js"></script>
+<script type="text/javascript" src="/IBM-SC-PHP-Training/theo_s_job/libs/jquery-ui-1.11.4/jquery-ui.js"></script>
+<script type="text/javascript" src="/IBM-SC-PHP-Training/theo_s_job/loader.js"></script>
+{include file="footer.html" title=foo}
