@@ -1,0 +1,12 @@
+
+
+CREATE DATABASE `chat`;
+CREATE TABLE  `user` (
+  `id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `login_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `password` varchar(45) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+);
