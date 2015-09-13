@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<title>chatroom</title>
+		<meta charset="utf-8" />
+		<script src='./js/ajax4.0.js'></script>
+		<script src='./js/jquery-1.6.js'></script>
+		
+	</head>
+	<body>
+		<div id='content' style="overflow:auto;width:1000px;height:300px;padding:10px;border:1px solid #000;"></div>
+		USERNAME:<input type='text'  style='border:0px' id='username' name='user' readonly="readonly"/>
+		-->:<input type='text' name='say' onkeypress="keyup(event)" />
+		<input type='button' value='Enter' onclick="fabu()" />
+		
+		
+		
+		<script>
+			var username = getUrlParam('username');
+			$("input[name='user']").val(username);
+			var $user=username,say=null,$height=null;
+			function fabu(){
+				$user = username;
+				$say = $("input[name='say']").val();
+				if($say!=''){
+					Ajax().get('insert.php?user='+$user+'&say='+$say);
+					$("input[name='say']").val('');
+					}
+				}
+			function putinfo(data){
+				$("#content").html(data);
+				document.getElementById('content').scrollTop += 5000;
+				}
+			function myrefresh(){
+				Ajax().get('getlist.php',putinfo);
+				}	
+			function keyup(e){
+				if(e.keyCode==13)fabu();
+				}
+			setInterval('myrefresh()',1000);
+			
+			 //获取url中的参数
+	        function getUrlParam(name) {
+	            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+	            if (r != null) return unescape(r[2]); return null; //返回参数值
+	        }
+		</script>
+	</body>
+</html>
